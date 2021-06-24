@@ -16,7 +16,7 @@ const Square = (props) => {
   return <button onClick={handleClick}
           id = {props.id}
           value = {props.value}
-          className="square"> {props.value} </button>
+          className="square">{props.value}</button>
 }
 
 Square.propTypes = {

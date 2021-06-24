@@ -38,25 +38,16 @@ const App = () => {
   //   Then pass it into the squares as a callback
   const updateTheSquare = (id) => {
 
-    // for (let row = 0; row < 3; row += 1) {
-    //   for (let col = 0; col < 3; col += 1) {
-    //     if (squares[row][col].id === id){
-    //       console.log('Encontre el id: ',id);
-    //       console.log('Con el valor: ',squares[row][col].value);
-    //       squares[row][col].value = '0';
-    //       console.log('Con el nuevo valor: ',squares[row][col].value);
-    //     }
-    //   }
-    // }
-
     const tempSquares = [];
     let currentId = 0;
+    let changePlayer = false;
     for (let row = 0; row < 3; row += 1) {
       tempSquares.push([]);
       for (let col = 0; col < 3; col += 1) {
         let squareVal = squares[row][col].value;
-        if (currentId === id){
+        if (currentId === id && (squares[row][col].value === '')){
           squareVal=currentPlayer;
+          changePlayer = true;
         }
         tempSquares[row].push({
           id: currentId,
@@ -66,10 +57,10 @@ const App = () => {
       }
     }
     setSquares(tempSquares);
-    if (currentPlayer === PLAYER_1){
+    if (changePlayer && (currentPlayer === PLAYER_1)){
       setPlayer(PLAYER_2);
     }
-    else if (currentPlayer === PLAYER_2){
+    else if (changePlayer && (currentPlayer === PLAYER_2)){
       setPlayer(PLAYER_1);
 
     }
