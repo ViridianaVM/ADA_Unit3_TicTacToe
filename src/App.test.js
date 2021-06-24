@@ -11,6 +11,7 @@ describe('App', () => {
     fireEvent.click(buttons[buttonIndex]);
     
     buttons = container.querySelectorAll('.grid button');
+    console.log('Botones: ',buttons[buttonIndex].innerHTML);
     expect(buttons[buttonIndex].innerHTML).toEqual(expectedResult);
   }
 
@@ -44,7 +45,7 @@ describe('App', () => {
     const { container } = render(<App />);
 
     // Act-assert
-    clickButtonAndVerifyResult(container, 0, 'x');
+    clickButtonAndVerifyResult(container, 0, 'X');
   });
 
   test('Clicking on the 1st button makes it an "x" and the 2nd an "o"', () => {
@@ -52,8 +53,8 @@ describe('App', () => {
     const { container } = render(<App />);
 
     //Act-Assert
-    clickButtonAndVerifyResult(container, 0, 'x');
-    clickButtonAndVerifyResult(container, 8, 'o');
+    clickButtonAndVerifyResult(container, 0, 'X');
+    clickButtonAndVerifyResult(container, 8, 'O');
   });
 
   test('clicking on the same square twice doesn\'t change things', () => {
@@ -65,7 +66,7 @@ describe('App', () => {
     fireEvent.click(buttons[0]);
 
     // after the click there should be a square with an "x"
-    let clickedButton = screen.getByText('x');
+    let clickedButton = screen.getByText('X');
     expect(clickedButton).toBeInTheDocument();
 
     buttons = container.querySelectorAll('.grid button');
@@ -73,19 +74,19 @@ describe('App', () => {
 
     // Assert
     // after the 2nd click there should still be a square with an "x"
-    clickedButton = screen.getByText('x');
+    clickedButton = screen.getByText('X');
     expect(clickedButton).toBeInTheDocument();
 
 
-    const xButtons = screen.queryAllByText('x');
+    const xButtons = screen.queryAllByText('X');
     expect(xButtons.length).toEqual(1);
-    const oButtons = screen.queryAllByText('o');
+    const oButtons = screen.queryAllByText('O');
     expect(oButtons.length).toEqual(0);
   });
 });
 
   
-  describe.skip('Wave 3:  Winner tests', () => {
+  describe('Wave 3:  Winner tests', () => {
     describe('Prints "Winner is x" when x wins', () => {
       test('that a winner will be identified when 3 Xs get in a row across the top', () => {
         // Arrange
