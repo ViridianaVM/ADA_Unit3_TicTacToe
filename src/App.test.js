@@ -11,7 +11,6 @@ describe('App', () => {
     fireEvent.click(buttons[buttonIndex]);
     
     buttons = container.querySelectorAll('.grid button');
-    console.log('Botones: ',buttons[buttonIndex].innerHTML);
     expect(buttons[buttonIndex].innerHTML).toEqual(expectedResult);
   }
 
@@ -365,7 +364,7 @@ describe('App', () => {
     });       
   });
 
-  describe.skip('Wave 4:  reset game button', () => {
+  describe('Wave 4:  reset game button', () => {
     test('App has a "Reset Game" button', () => {
       // Arrange-Act
       render(<App />);
@@ -379,8 +378,8 @@ describe('App', () => {
     test('the button resets the game', () => {
       // Arrange - click on some squares
       const { container } = render(<App />);
-      clickButtonAndVerifyResult(container, 0, 'x');
-      clickButtonAndVerifyResult(container, 2, 'o');
+      clickButtonAndVerifyResult(container, 0, 'X');
+      clickButtonAndVerifyResult(container, 2, 'O');
 
       // Find the reset button
       const resetButton = screen.queryByText(/[Rr]eset\s+[Gg]ame/);
@@ -390,10 +389,10 @@ describe('App', () => {
 
       // Assert - There should no longer be Xs or Os 
       // on the board.
-      const xSquare = screen.queryByText('x');
+      const xSquare = screen.queryByText('X');
       expect(xSquare).toBeNull();
 
-      const oSquare = screen.queryByText('o');
+      const oSquare = screen.queryByText('O');
       expect(oSquare).toBeNull();
     });
   });

@@ -31,13 +31,16 @@ const App = () => {
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setPlayer] = useState(PLAYER_1);
+  let gameOver = false;
 
   // Wave 2
   // You will need to create a method to change the square 
   //   When it is clicked on.
   //   Then pass it into the squares as a callback
   const updateTheSquare = (id) => {
-
+    if (gameOver){
+      return false;
+    }
     const tempSquares = [];
     let currentId = 0;
     let changePlayer = false;
@@ -62,8 +65,8 @@ const App = () => {
     }
     else if (changePlayer && (currentPlayer === PLAYER_2)){
       setPlayer(PLAYER_1);
-
     }
+    
   }
 
 
@@ -71,6 +74,7 @@ const App = () => {
 
 
   const checkForWinner = () => {
+    let tieCounter = 0;
     // console.log('Esto es lo que recibo en checkForWinner: ',squares);
     // 1. Go accross each row and go down each column, to see if 3 squares in the same row match same value
     for (let row = 0; row < 3; row += 1) {
@@ -82,9 +86,11 @@ const App = () => {
         // Rows
         if (squares[row][col].value === 'X'){
           countRowX += 1;
+          tieCounter += 1;
         }
         else if (squares[row][col].value === 'O'){
           countRowO += 1;
+          tieCounter += 1;
         }
         // Columns
         if (squares[col][row].value === 'X'){
@@ -95,9 +101,11 @@ const App = () => {
         }
       }
       if (countRowX === 3 || countColX === 3){
+        gameOver = true;
         return ('Winner is X');
       }
       else if (countRowO === 3 || countColO === 3){
+        gameOver = true;
         return ('Winner is O');
       }
     }
@@ -125,10 +133,15 @@ const App = () => {
       }
     }
     if (diagonalX === 3 || inverseDiagonalX === 3){
+      gameOver = true;
       return ('Winner is X');
     }
     else if (diagonalO === 3 || inverseDiagonalO === 3){
+      gameOver = true;
       return ('Winner is O');
+    }
+    if (tieCounter === 9){
+      return ('The game ends in a tie');
     }
     return (`Current player is ${currentPlayer}`)
 
@@ -136,6 +149,8 @@ const App = () => {
 
   const resetGame = () => {
     // Complete in Wave 4
+    const clearSquares = generateSquares();
+    setSquares(clearSquares);
   }
 
   return (
@@ -143,7 +158,7 @@ const App = () => {
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
         <h2>{checkForWinner()}</h2>
-        <button>Reset Game</button>
+        <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
         <Board squares={squares} onClickCallback={updateTheSquare}/>
