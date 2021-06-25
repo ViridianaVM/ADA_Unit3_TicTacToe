@@ -75,57 +75,34 @@ const App = () => {
 
 
   const checkForWinner = () => {
-  
-    const pos00 = squares[0][0].value;
-    const pos01 = squares[0][1].value;
-    const pos02 = squares[0][2].value;
-    const pos10 = squares[1][0].value;
-    const pos11 = squares[1][1].value;
-    const pos12 = squares[1][2].value;
-    const pos20 = squares[2][0].value;
-    const pos21 = squares[2][1].value;
-    const pos22 = squares[2][2].value;
-
-    //Rows
-    if  (pos00 !== '' && pos00 === pos01 && pos01 === pos02){
-      gameOver = true;
-      return (`Winner is ${pos00}`);
+    for (let idx=0; idx<3; idx++){
+      //Columns
+      if (squares[0][idx].value !== '' && 
+          squares[0][idx].value === squares[1][idx].value && squares[1][idx].value === squares[2][idx].value){
+            gameOver = true;
+            return (`Winner is ${squares[0][idx].value}`)
+          }
+      //Rows
+      if (squares[idx][0].value !== '' && 
+          squares[idx][0].value === squares[idx][1].value && squares[idx][1].value === squares[idx][2].value){
+            gameOver = true;
+            return (`Winner is ${squares[idx][0].value}`)
+          }
     }
-    else if (pos10 !== '' && pos10 === pos11 && pos11 === pos12){
-      gameOver = true;
-      return (`Winner is ${pos10}`);
-    }
-    else if (pos20 !== '' && pos20 === pos21 && pos21 === pos22){
-      gameOver = true;
-      return (`Winner is ${pos20}`);
-    }
-
-    //Columns
-    if  (pos00 !== '' && pos00 === pos10 && pos10 === pos20){
-      gameOver = true;
-      return (`Winner is ${pos00}`);
-    }
-    else if (pos01 !== '' && pos01 === pos11 && pos11 === pos21){
-      gameOver = true;
-      return (`Winner is ${pos01}`);
-    }
-    else if (pos02 !== '' && pos02 === pos12 && pos12 === pos22){
-      gameOver = true;
-      return (`Winner is ${pos02}`);
-    }
-
     //Diagonals
-    if  (pos00 !== '' && pos00 === pos11 && pos11 === pos22){
-      gameOver = true;
-      return (`Winner is ${pos00}`);
+    if (squares[1][1].value !== ''){ 
+      if (squares[0][0].value === squares[1][1].value && squares[1][1].value === squares[2][2].value){
+        gameOver = true;
+        return (`Winner is ${squares[0][0].value}`);
+      }
+      else if (squares[0][2].value === squares[1][1].value && squares[1][1].value === squares[2][0].value){
+            gameOver = true;
+            return (`Winner is ${squares[0][2].value}`);
+      }
     }
-    else if (pos02 !== '' && pos02 === pos11 && pos11 === pos20){
-      gameOver = true;
-      return (`Winner is ${pos02}`);
-    }
-
+    //Tie
     if (tieCounter === 9){
-      return ('The game ends in a tie')
+      return ('GATO!😸 The game ends in a tie.')
     }
     return (`Current player is ${currentPlayer}`);
   }
