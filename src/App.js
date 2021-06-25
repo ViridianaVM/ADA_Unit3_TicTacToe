@@ -5,6 +5,7 @@ import Board from './components/Board';
 
 const PLAYER_1 = 'X';
 const PLAYER_2 = 'O';
+let tieCounter = 0;
 
 const generateSquares = () => {
   const squares = [];
@@ -32,6 +33,7 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setPlayer] = useState(PLAYER_1);
   let gameOver = false;
+  
 
   // Wave 2
   // You will need to create a method to change the square 
@@ -50,6 +52,8 @@ const App = () => {
         let squareVal = squares[row][col].value;
         if (currentId === id && (squares[row][col].value === '')){
           squareVal=currentPlayer;
+          tieCounter += 1;
+          console.log('Mi contador: ',tieCounter);
           changePlayer = true;
         }
         tempSquares[row].push({
@@ -70,87 +74,68 @@ const App = () => {
   }
 
 
-  
-
-
   const checkForWinner = () => {
-    let tieCounter = 0;
-    // console.log('Esto es lo que recibo en checkForWinner: ',squares);
-    // 1. Go accross each row and go down each column, to see if 3 squares in the same row match same value
-    for (let row = 0; row < 3; row += 1) {
-      let countRowX = 0;
-      let countRowO = 0;
-      let countColX = 0;
-      let countColO = 0;
-      for (let col = 0; col < 3; col += 1) {
-        // Rows
-        if (squares[row][col].value === 'X'){
-          countRowX += 1;
-          tieCounter += 1;
-        }
-        else if (squares[row][col].value === 'O'){
-          countRowO += 1;
-          tieCounter += 1;
-        }
-        // Columns
-        if (squares[col][row].value === 'X'){
-          countColX += 1;
-        }
-        else if (squares[col][row].value === 'O'){
-          countColO += 1;
-        }
-      }
-      if (countRowX === 3 || countColX === 3){
-        gameOver = true;
-        return ('Winner is X');
-      }
-      else if (countRowO === 3 || countColO === 3){
-        gameOver = true;
-        return ('Winner is O');
-      }
+  
+    const pos00 = squares[0][0].value;
+    const pos01 = squares[0][1].value;
+    const pos02 = squares[0][2].value;
+    const pos10 = squares[1][0].value;
+    const pos11 = squares[1][1].value;
+    const pos12 = squares[1][2].value;
+    const pos20 = squares[2][0].value;
+    const pos21 = squares[2][1].value;
+    const pos22 = squares[2][2].value;
+
+    //Rows
+    if  (pos00 !== '' && pos00 === pos01 && pos01 === pos02){
+      gameOver = true;
+      return (`Winner is ${pos00}`);
+    }
+    else if (pos10 !== '' && pos10 === pos11 && pos11 === pos12){
+      gameOver = true;
+      return (`Winner is ${pos10}`);
+    }
+    else if (pos20 !== '' && pos20 === pos21 && pos21 === pos22){
+      gameOver = true;
+      return (`Winner is ${pos20}`);
     }
 
-    // 2. Go across each diagonal to see if all three squares have the same value.
-    let diagonalX = 0;
-    let diagonalO = 0;
-    let inverseDiagonalX = 0;
-    let inverseDiagonalO = 0;
-    const inverseIdx = 2;
-    for (let idx = 0; idx < 3; idx += 1) {
-      // Diagonal
-      if (squares[idx][idx].value === 'X'){
-        diagonalX += 1;
-      }
-      else if (squares[idx][idx].value === 'O'){
-        diagonalO += 1;
-      }
-      // Inverse Diagonal
-      if (squares[inverseIdx-idx][idx].value === 'X'){
-        inverseDiagonalX += 1;
-      }
-      else if (squares[inverseIdx-idx][idx].value === 'O'){
-        inverseDiagonalO += 1;
-      }
-    }
-    if (diagonalX === 3 || inverseDiagonalX === 3){
+    //Columns
+    if  (pos00 !== '' && pos00 === pos10 && pos10 === pos20){
       gameOver = true;
-      return ('Winner is X');
+      return (`Winner is ${pos00}`);
     }
-    else if (diagonalO === 3 || inverseDiagonalO === 3){
+    else if (pos01 !== '' && pos01 === pos11 && pos11 === pos21){
       gameOver = true;
-      return ('Winner is O');
+      return (`Winner is ${pos01}`);
     }
+    else if (pos02 !== '' && pos02 === pos12 && pos12 === pos22){
+      gameOver = true;
+      return (`Winner is ${pos02}`);
+    }
+
+    //Diagonals
+    if  (pos00 !== '' && pos00 === pos11 && pos11 === pos22){
+      gameOver = true;
+      return (`Winner is ${pos00}`);
+    }
+    else if (pos02 !== '' && pos02 === pos11 && pos11 === pos20){
+      gameOver = true;
+      return (`Winner is ${pos02}`);
+    }
+
     if (tieCounter === 9){
-      return ('The game ends in a tie');
+      return ('The game ends in a tie')
     }
-    return (`Current player is ${currentPlayer}`)
-
+    return (`Current player is ${currentPlayer}`);
   }
+
 
   const resetGame = () => {
     // Complete in Wave 4
     const clearSquares = generateSquares();
     setSquares(clearSquares);
+    tieCounter = 0;
   }
 
   return (
